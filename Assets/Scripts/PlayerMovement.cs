@@ -1,17 +1,30 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour
+[RequireComponent(typeof(InputReader))]
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 3;
     
     private CharacterController _characterController;
+    private InputReader _inputReader;
     
     private float _verticalVelocity;
     
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _inputReader = GetComponent<InputReader>();
+    }
+
+    private void OnEnable()
+    {
+        _inputReader.Moved += Move;
+    }
+
+    private void OnDisable()
+    {
+        _inputReader.Moved -= Move;
     }
 
     private void Start()
@@ -20,10 +33,10 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void Update()
+    private void Move(Vector3 input)
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = input.x;
+        float vertical = input.y;
 
         Vector3 move = transform.forward * vertical + transform.right * horizontal;
 
