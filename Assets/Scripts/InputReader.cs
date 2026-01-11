@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class InputReader : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private const int NumberButton = 0;
+    
+    public event Action MouseButtonClicked;
+    
+    private void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (Input.GetMouseButtonDown(NumberButton))
+            MouseButtonClicked?.Invoke();
     }
 }
