@@ -52,7 +52,7 @@ public class Alarm : MonoBehaviour
 
     private IEnumerator IncreaseRoutine(float targetVolume)
     {
-        while (_audioSource.volume > targetVolume)
+        while (enabled)
         {
             _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetVolume, _increaseSpeed * Time.deltaTime);
             

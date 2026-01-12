@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(InputReader))]
@@ -10,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private InputReader _inputReader;
     
     private float _verticalVelocity;
+    private Vector3 _direction;
     
     private void Awake()
     {
@@ -19,12 +21,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        _inputReader.Moved += Move;
+        _inputReader.Moved += OnMove;
     }
 
     private void OnDisable()
     {
-        _inputReader.Moved -= Move;
+        _inputReader.Moved -= OnMove;
     }
 
     private void Start()
@@ -33,17 +35,25 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void Move(Vector3 input)
+    private void Update()
+    {
+        Move();
+    }
+
+    private void OnMove(Vector3 input)
     {
         float horizontal = input.x;
         float vertical = input.y;
 
-        Vector3 move = transform.forward * vertical + transform.right * horizontal;
+        _direction = transform.forward * vertical + transform.right * horizontal;
+    }
 
+    private void Move()
+    {
         _verticalVelocity -= 9.81f * Time.deltaTime;
         
-        move.y = _verticalVelocity;
+        _direction.y = _verticalVelocity;
 
-        _characterController.Move(move * _moveSpeed * Time.deltaTime);
+        _characterController.Move(_direction * _moveSpeed * Time.deltaTime);
     }
 }
