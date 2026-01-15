@@ -6,35 +6,17 @@ public class Door : MonoBehaviour
     private Animator _animator;
     
     private bool _isOpen;
+    
+    private readonly int IsOpen = Animator.StringToHash(nameof(IsOpen));
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
     }
 
-    private void Open()
+    public void Interact()
     {
-        if (_isOpen)
-            return;
-
-        _isOpen = true;
-        _animator.SetBool("IsOpen", true);
-    }
-
-    private void Close()
-    {
-        if (!_isOpen)
-            return;
-
-        _isOpen = false;
-        _animator.SetBool("IsOpen", false);
-    }
-
-    public void Toggle()
-    {
-        if (_isOpen)
-            Close();
-        else
-            Open();
+        _isOpen = !_isOpen;
+        _animator.SetBool(IsOpen, _isOpen);
     }
 }

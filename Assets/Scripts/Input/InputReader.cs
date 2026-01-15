@@ -1,16 +1,15 @@
 using System;
 using UnityEngine;
-using UnityEngine.Animations;
 
 public class InputReader : MonoBehaviour
 {
-    private const int NumberButton = 0;
+    private const int NumberButtonPressed = 0;
     
     private const string Horizontal = "Horizontal";
     private const string Vertical = "Vertical";
     
-    private const string InputX = "Mouse X";
-    private const string InputY = "Mouse Y";
+    private const string MouseX = "Mouse X";
+    private const string MouseY = "Mouse Y";
     
     private Vector3 _direction;
     private Vector2 _mouseLookDelta;
@@ -22,7 +21,7 @@ public class InputReader : MonoBehaviour
     private void Update()
     {
         _direction = new Vector3(Input.GetAxis(Horizontal), 0f, Input.GetAxis(Vertical));
-        _mouseLookDelta = new Vector2(Input.GetAxis(InputX), Input.GetAxis(InputY));
+        _mouseLookDelta = new Vector2(Input.GetAxis(MouseX), Input.GetAxis(MouseY));
         
         if(_direction.sqrMagnitude > 0f || _mouseLookDelta.sqrMagnitude > 0f)
         {
@@ -30,7 +29,7 @@ public class InputReader : MonoBehaviour
             Looked?.Invoke(_mouseLookDelta);
         }
         
-        if (Input.GetMouseButtonDown(NumberButton))
+        if (Input.GetMouseButtonDown(NumberButtonPressed))
             MouseButtonClicked?.Invoke();
     }
 }

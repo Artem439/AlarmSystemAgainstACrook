@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(InputReader))]
@@ -10,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _characterController;
     private InputReader _inputReader;
     
-    private float _verticalVelocity;
+    private Vector3 _velocity;
     private Vector3 _direction;
     
     private void Awake()
@@ -37,23 +36,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        ApplyGravity();
+        
         Move();
-    }
-
-    private void OnMove(Vector3 input)
-    {
-        float horizontal = input.x;
-        float vertical = input.y;
-
-        _direction = transform.forward * vertical + transform.right * horizontal;
     }
 
     private void Move()
     {
-        _verticalVelocity -= 9.81f * Time.deltaTime;
-        
-        _direction.y = _verticalVelocity;
+        Vector3 moveDirection = transform.TransformDirection(_direction) * _moveSpeed;
 
-        _characterController.Move(_direction * _moveSpeed * Time.deltaTime);
+        _characterController.Move((moveDirection + _velocity) * Time.deltaTime);
+    }
+
+    private void ApplyGravity()
+    {
+        _velocity.y += Physics.gravity.y  * Time.deltaTime;
+    }
+    
+    private void OnMove(Vector3 input)
+    {
+        _direction = new Vector3(input.x, 0f, input.y);
     }
 }

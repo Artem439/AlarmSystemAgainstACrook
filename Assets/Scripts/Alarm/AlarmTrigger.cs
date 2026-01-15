@@ -8,11 +8,13 @@ public class AlarmTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerEntered?.Invoke(other);
+        if (other.TryGetComponent<Crook>(out _))
+            PlayerEntered?.Invoke(null);
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
-        PlayerOut?.Invoke(other);
+        if (other.TryGetComponent<Crook>(out _))
+            PlayerOut?.Invoke(null);
     }
 }

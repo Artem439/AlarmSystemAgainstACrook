@@ -9,10 +9,11 @@ public class Alarm : MonoBehaviour
     
     [SerializeField] private AlarmTrigger _zone;
     [SerializeField] private float _increaseSpeed = 1f;
-    [SerializeField] private Crook _crook;
-
+    
     private AudioSource _audioSource;
     private Coroutine _fadeCoroutine;
+    
+    private int _currentEntryCount;
     
     private void Awake()
     {
@@ -34,16 +35,25 @@ public class Alarm : MonoBehaviour
 
     private void FadeIn(Collider other)
     {
-        StartFadeVolume(MaxVolume);
+        if (_currentEntryCount == 0)
+            StartFadeVolume(MaxVolume);
+        
+        _currentEntryCount++;
     }
 
     private void FadeOut(Collider other)
     {
-        StartFadeVolume(MinVolume);
+        _currentEntryCount = Mathf.Max(0, _currentEntryCount - 1);
+
+        if (_currentEntryCount == 0)
+            StartFadeVolume(MinVolume);
     }
 
     private void StartFadeVolume(float targetVolume)
     {
+        if (_audioSource.isPlaying == false)
+            _audioSource.Play();
+
         if (_fadeCoroutine != null)
             StopCoroutine(_fadeCoroutine);
 
@@ -52,11 +62,14 @@ public class Alarm : MonoBehaviour
 
     private IEnumerator IncreaseRoutine(float targetVolume)
     {
-        while (enabled)
+        while (!Mathf.Approximately(_audioSource.volume, targetVolume))
         {
             _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetVolume, _increaseSpeed * Time.deltaTime);
-            
+
             yield return null;
         }
+
+        if (Mathf.Approximately(targetVolume, 0f))
+            _audioSource.Stop();
     }
 }

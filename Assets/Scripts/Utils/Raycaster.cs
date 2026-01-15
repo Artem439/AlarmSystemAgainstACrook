@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(InputReader))]
+[RequireComponent(typeof(IInteractable))]
 public class Raycaster : MonoBehaviour
 {
     [SerializeField] private float _maxDistance = 1f;
@@ -8,6 +9,7 @@ public class Raycaster : MonoBehaviour
     private Camera _camera;
     
     private InputReader _inputReader;
+    private IInteractable _interactable;
 
     private void OnValidate()
     {
@@ -18,6 +20,7 @@ public class Raycaster : MonoBehaviour
     private void Awake()
     {
         _inputReader = GetComponent<InputReader>();
+        _interactable = GetComponent<IInteractable>();
         _camera = Camera.main;
     }
     
@@ -37,10 +40,7 @@ public class Raycaster : MonoBehaviour
         
         if (Physics.Raycast(ray, out RaycastHit hit, _maxDistance))
         {
-            if (hit.collider.TryGetComponent(out Door door))
-            {
-                door.Toggle();
-            }
+            _interactable.Interact();
         }
     }
 }
