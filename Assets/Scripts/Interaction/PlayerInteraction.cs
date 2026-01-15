@@ -1,11 +1,11 @@
 using Controls;
-using PlayerInteraction.Interfaces;
+using Interaction.Interfaces;
 using UnityEngine;
 
-namespace PlayerInteraction
+namespace Interaction
 {
     [RequireComponent(typeof(InputReader))]
-    public class Raycaster : MonoBehaviour
+    public class PlayerInteraction : MonoBehaviour
     {
         [SerializeField] private float _maxDistance = 1f;
     

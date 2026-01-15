@@ -1,7 +1,7 @@
-﻿using PlayerInteraction.Interfaces;
+﻿using Interaction.Interfaces;
 using UnityEngine;
 
-namespace PlayerInteraction
+namespace Interaction
 {
     [RequireComponent(typeof(Animator))]
     public class Door : MonoBehaviour, IInteractable

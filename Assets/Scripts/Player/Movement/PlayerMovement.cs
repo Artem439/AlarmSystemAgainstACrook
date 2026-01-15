@@ -1,7 +1,7 @@
 ﻿using Controls;
 using UnityEngine;
 
-namespace PlayerMovement
+namespace Player.Movement
 {
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(InputReader))]
@@ -43,11 +43,6 @@ namespace PlayerMovement
         
             Move();
         }
-    
-        private void OnMove(Vector3 direction)
-        {
-            _direction = direction;
-        }
 
         private void Move()
         {
@@ -59,6 +54,11 @@ namespace PlayerMovement
         private void ApplyGravity()
         {
             _velocity.y += Physics.gravity.y  * Time.deltaTime;
+        }
+
+        private void OnMove(Vector3 direction)
+        {
+            _direction = direction;
         }
     }
 }

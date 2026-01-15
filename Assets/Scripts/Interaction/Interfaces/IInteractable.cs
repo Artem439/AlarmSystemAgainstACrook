@@ -1,4 +1,4 @@
-﻿namespace PlayerInteraction.Interfaces
+﻿namespace Interaction.Interfaces
 {
     public interface IInteractable
     {

@@ -1,7 +1,7 @@
 ﻿using Controls;
 using UnityEngine;
 
-namespace PlayerMovement
+namespace Player.Movement
 {
     [RequireComponent(typeof(InputReader))]
     public class CameraRotator : MonoBehaviour
@@ -34,11 +34,6 @@ namespace PlayerMovement
         {
             Rotate();
         }
-    
-        private void OnLook(Vector2 delta)
-        {
-            _mouseLookDelta = delta;
-        }
 
         private void Rotate()
         {
@@ -54,6 +49,11 @@ namespace PlayerMovement
             transform.localRotation = Quaternion.Euler(_rotationX, 0.0f, 0.0f);
         
             _mouseLookDelta = Vector2.zero;
+        }
+        
+        private void OnLook(Vector2 delta)
+        {
+            _mouseLookDelta = delta;
         }
     }
 }
